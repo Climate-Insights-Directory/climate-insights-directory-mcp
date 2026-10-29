@@ -5,8 +5,10 @@ and energy, improve your desk research for policy, finance, scholarship, and jou
 
 [Climate Insights Directory](https://climateinsightsdirectory.org) is a free, open index of climate
 and energy research published by global civil society organizations, such as NGOs, think tanks and
-research centers. This repository connects it to AI assistants through its MCP server, so an
-assistant can search the index and cite what it finds. No account or API key is needed.
+research centers. This repository contains instructions for using our MCP server with AI assistants. 
+The MCP provides access to our public search index and records for each document. 
+
+This is the first version of the API, currently in beta. No account or API key is needed.
 
 ## Install
 
@@ -48,6 +50,15 @@ documents stay on the publishers' websites. The directory does not include datas
 return time series.
 
 Our preferred citation names the original publisher, followed by "via Climate Insights Directory".
+
+## What is the API good for?
+
+The Climate Insights Directory is designed to help researchers, journalists and communicators to find reliable publications from Climate Civil Society. 
+Examples of good research questions include: 
+- What does civil society say about recent climate policy in Kenya?
+- What are the best practices for climate communication?
+- What financial challenges might be present in the solar market for Nigeria?
+The corpus is curated around core climate and energy concepts, that are documented at: https://wiki.theclimateid.org/ 
 
 ## Feedback
 
