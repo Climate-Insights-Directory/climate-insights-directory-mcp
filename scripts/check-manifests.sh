@@ -14,13 +14,19 @@ if [ ! -f "$GEMINI_EXT" ]; then
   exit 1
 fi
 
-if ! grep -q 'utm_source=claude-code-plugin' "$CLAUDE_MCP"; then
-  echo "Error: $CLAUDE_MCP must carry utm_source=claude-code-plugin" >&2
+utm_source_of() {
+  jq -r "$2" "$1" | sed -n 's/.*[?&]utm_source=\([^&#]*\).*/\1/p'
+}
+
+CLAUDE_SRC=$(utm_source_of "$CLAUDE_MCP" '.mcpServers["climate-insights-directory"].url')
+if [ "$CLAUDE_SRC" != "claude-code-plugin" ]; then
+  echo "Error: $CLAUDE_MCP must carry utm_source=claude-code-plugin exactly (found: '$CLAUDE_SRC')" >&2
   exit 1
 fi
 
-if ! grep -q 'utm_source=gemini-extension' "$GEMINI_EXT"; then
-  echo "Error: $GEMINI_EXT must carry utm_source=gemini-extension" >&2
+GEMINI_SRC=$(utm_source_of "$GEMINI_EXT" '.mcpServers["climate-insights-directory"].httpUrl')
+if [ "$GEMINI_SRC" != "gemini-extension" ]; then
+  echo "Error: $GEMINI_EXT must carry utm_source=gemini-extension exactly (found: '$GEMINI_SRC')" >&2
   exit 1
 fi
 
