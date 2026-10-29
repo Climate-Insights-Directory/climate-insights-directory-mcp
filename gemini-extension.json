@@ -1,0 +1,11 @@
+{
+  "name": "climate-insights-directory",
+  "version": "1.0.0",
+  "description": "Free, no API key. Discover what civil-society reports, policy briefs and analyses say about climate and energy, improve your desk research for policy, finance, scholarship, and journalism.",
+  "contextFileName": "GEMINI.md",
+  "mcpServers": {
+    "climate-insights-directory": {
+      "httpUrl": "https://climateinsightsdirectory.org/api/mcp?utm_source=gemini-extension&utm_medium=mcp"
+    }
+  }
+}
