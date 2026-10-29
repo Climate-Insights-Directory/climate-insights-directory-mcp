@@ -1,6 +1,6 @@
 ---
 name: climate-energy-research
-description: "Best-practice method for any AI agent researching the Climate Insights Directory MCP server: finding documents with high recall (including snowballing and adjacent topics) and citing them with correct provenance."
+description: "Use when the user asks what NGOs, think tanks or civil-society organisations say about a climate or energy topic, country, policy, company or finance instrument, or wants sourced desk research for policy, finance, journalism or scholarship. Searches the Climate Insights Directory with high recall (including snowballing and adjacent topics) and cites each document’s original publisher via Climate Insights Directory."
 ---
 
 # Researching the Climate Insights Directory
