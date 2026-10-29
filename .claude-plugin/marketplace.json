@@ -1,0 +1,14 @@
+{
+  "name": "climate-insights-directory",
+  "description": "Climate Insights Directory plugins and MCP servers for AI assistants",
+  "owner": {
+    "name": "Climate Insights Directory",
+    "url": "https://climateinsightsdirectory.org"
+  },
+  "plugins": [
+    {
+      "name": "climate-insights-directory",
+      "source": "./plugins/climate-insights-directory"
+    }
+  ]
+}

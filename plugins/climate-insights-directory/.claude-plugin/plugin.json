@@ -1,0 +1,9 @@
+{
+  "name": "climate-insights-directory",
+  "version": "1.0.0",
+  "description": "Free, no API key. Discover what civil-society reports, policy briefs and analyses say about climate and energy, improve your desk research for policy, finance, scholarship, and journalism.",
+  "author": {
+    "name": "Climate Insights Directory",
+    "url": "https://climateinsightsdirectory.org"
+  }
+}

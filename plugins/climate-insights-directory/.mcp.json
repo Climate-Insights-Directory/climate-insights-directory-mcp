@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "climate-insights-directory": {
+      "type": "http",
+      "url": "https://climateinsightsdirectory.org/api/mcp?utm_source=claude-code-plugin&utm_medium=mcp"
+    }
+  }
+}
