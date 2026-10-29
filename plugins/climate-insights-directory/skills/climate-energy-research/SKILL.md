@@ -130,9 +130,6 @@ findings.
   short identifier (`saiia`). Record IDs start with that identifier (`saiia-001296`).
 - `intitle:` is narrow (`intitle:JETP` gave 11). Use it to find flagship reports, not to measure
   coverage.
-- **Known quirk (Oct 2026):** `geography_discussed` returned 0 for every value tested, with or without a
-  warning. For places a document *discusses* (as opposed to focuses on), use full text or `insummary:`
-  instead, and treat any 0 from this filter as "not working", not "no documents".
 - A 0 can also mean you have stacked too many ANDs. Remove filters one at a time to see which one empties
   the pool.
 
@@ -181,8 +178,6 @@ Search results omit authors and primary geography. Call `fetch(id)` for each doc
   - open the `source_url` and quote or cite the publisher's text directly, ideally with a page number.
 - Check any **figure** (percentages, dollar amounts, dates) against the original before a reader may
   rely on it.
-- Copy text exactly; never retype or "tidy" a quote. Skip insights with garbled characters (stray control
-  characters, such as the `\u001c` that appears in some titles) or quote the original instead.
 - A precise pointer to an insight is its `unit`: `<record-id>#insight-N` (in `fetch` output, the Nth
   Key Findings bullet).
 
