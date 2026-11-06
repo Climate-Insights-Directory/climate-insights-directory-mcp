@@ -30,6 +30,19 @@ if [ "$GEMINI_SRC" != "gemini-extension" ]; then
   exit 1
 fi
 
+CLAUDE_PLUGIN="plugins/climate-insights-directory/.claude-plugin/plugin.json"
+if [ ! -f "$CLAUDE_PLUGIN" ]; then
+  echo "Error: $CLAUDE_PLUGIN not found" >&2
+  exit 1
+fi
+
+GEMINI_VER=$(jq -r '.version' "$GEMINI_EXT")
+CLAUDE_VER=$(jq -r '.version' "$CLAUDE_PLUGIN")
+if [ "$GEMINI_VER" != "$CLAUDE_VER" ]; then
+  echo "Error: version mismatch: $GEMINI_EXT is $GEMINI_VER, $CLAUDE_PLUGIN is $CLAUDE_VER" >&2
+  exit 1
+fi
+
 CLAUDE_SKILL="plugins/climate-insights-directory/skills/climate-energy-research/SKILL.md"
 GEMINI_SKILL="skills/climate-energy-research/SKILL.md"
 
