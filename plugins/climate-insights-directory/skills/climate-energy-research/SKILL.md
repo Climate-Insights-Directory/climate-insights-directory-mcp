@@ -201,15 +201,15 @@ document, and update `access-date` / `urldate` to today.
 ## Examples of the method in use
 
 - **Policy researchers:** *"Find policy briefs on coal phase-out in Southeast Asia."* Combine full text
-  `"coal phase-out"` with `geography=["southeast-asia"]` (multi-word places are slugs), then probe the
-  `coal` tag. Snowball from seed briefs into adjacent themes (e.g. early retirement, grid flexibility)
+  `"coal phase-out"` with `geography=["southeast-asia"]` (multi-word places are slugs), then
+  `climate_tags=["coal"]`. Snowball from seed briefs into adjacent themes (e.g. early retirement, grid flexibility)
   and publisher series. Fetch records to verify authoring coalitions, and cite the original publisher
   via Climate Insights Directory.
 - **Investment and insurance risk:** *"Which NGOs have criticised AIIB policy-based lending?"* Search full text `AIIB` with
-  `"policy-based"`, then the `climate finance` tag + `AIIB`. Snowball from the strongest hit's named
+  `"policy-based"`, then `climate_tags=["climate finance"]` together with `AIIB`. Snowball from the strongest hit's named
   countries and instruments, and from its publisher's other AIIB work. Merge, fetch, and list by
   organisation with dates, crediting coalition authors.
-- **Academics:** *"Literature on just transition in South Africa, 2020 onwards"* Combine the tag `just transition` +
+- **Academics:** *"Literature on just transition in South Africa, 2020 onwards"* Combine `climate_tags=["just transition"]` +
   `geography=["south-africa"]` + `published_from=2020-01-01` with full-text passes for `JETP` and
   `Mpumalanga`. Snowball from seeds into the neighbouring themes that recur (e.g. coal-plant
   repurposing, municipal electricity debt, water). Stop when new rounds return mostly known records,
