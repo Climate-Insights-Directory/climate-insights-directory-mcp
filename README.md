@@ -72,6 +72,8 @@ You can also write to [info@climateinsightsdirectory.org](mailto:info@climateins
 - `plugins/climate-insights-directory/`: the Claude Code plugin, with the server connection and a
   skill that tells Claude when to use it.
 - `gemini-extension.json` and `GEMINI.md`: the Gemini CLI extension.
+- `skills/`: the copy of the skill that the Gemini CLI extension loads, kept identical to the
+  plugin's by `scripts/check-manifests.sh`.
 
 More plugins and tools from the Climate Insights Directory team may join this repository over time.
 
