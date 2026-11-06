@@ -25,7 +25,7 @@ documents** and **citing them correctly**. It needs only the two MCP tools, with
 - `fetch(id)`: one record as markdown, including **Author(s)**, **primary geography**, the AI summary and
   findings, and **ready-made citations** (APA, Chicago, Wikipedia `{{cite report}}`, BibTeX).
 
-In Claude Code with the plugin installed, these tools appear as `mcp__plugin_climate-insights-directory_climate-insights-directory__search` and `mcp__plugin_climate-insights-directory_climate-insights-directory__fetch`; other clients list the tools as `search` and `fetch`.
+In Claude Code with the plugin installed, these tools appear as `mcp__plugin_climate-insights-directory_climate-insights-directory__search` and `mcp__plugin_climate-insights-directory_climate-insights-directory__fetch`; in Gemini CLI, they appear as `mcp_climate-insights-directory_search` and `mcp_climate-insights-directory_fetch`; other clients list the tools as `search` and `fetch`.
 
 Without the MCP tools, the same API is public at
 `https://climateinsightsdirectory.org/api/v1/search?q=...&page=...` (same parameters), and each record has
