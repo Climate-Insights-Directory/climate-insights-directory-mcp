@@ -30,6 +30,24 @@ if [ "$GEMINI_SRC" != "gemini-extension" ]; then
   exit 1
 fi
 
+CLAUDE_SKILL="plugins/climate-insights-directory/skills/climate-energy-research/SKILL.md"
+GEMINI_SKILL="skills/climate-energy-research/SKILL.md"
+
+if [ ! -f "$CLAUDE_SKILL" ]; then
+  echo "Error: $CLAUDE_SKILL not found" >&2
+  exit 1
+fi
+
+if [ ! -f "$GEMINI_SKILL" ]; then
+  echo "Error: $GEMINI_SKILL not found" >&2
+  exit 1
+fi
+
+if ! cmp -s "$CLAUDE_SKILL" "$GEMINI_SKILL"; then
+  echo "Error: $GEMINI_SKILL differs from $CLAUDE_SKILL; copy it again" >&2
+  exit 1
+fi
+
 if command -v claude >/dev/null 2>&1; then
   claude plugin validate . --strict
   claude plugin validate plugins/climate-insights-directory --strict
