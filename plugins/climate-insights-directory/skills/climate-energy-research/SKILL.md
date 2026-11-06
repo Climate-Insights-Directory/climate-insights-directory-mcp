@@ -216,7 +216,7 @@ document, and update `access-date` / `urldate` to today.
   then report the counts and searches used.
 - **Journalists:** *"Is the claim that 93% of coal capacity is shielded from market pressure sourced?"* Use full text
   `"93%" coal` and `insummary:"coal capacity"`. Fetch, find the CPI 2022 guide, snowball backward
-  (`published_to` 2022-11) for earlier sources of the figure, then cite it from the original document
+  (`published_to=2022-11-21`) for earlier sources of the figure, then cite it from the original document
   rather than from the AI insight.
 
 ## Scope note (keep it short)
