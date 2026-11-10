@@ -25,6 +25,8 @@ documents** and **citing them correctly**. It needs only the two MCP tools, with
 - `fetch(id)`: one record as markdown, including **Author(s)**, **primary geography**, the AI summary and
   findings, and **ready-made citations** (APA, Chicago, Wikipedia `{{cite report}}`, BibTeX).
 
+In Claude Code with the plugin installed, these tools appear as `mcp__plugin_climate-insights-directory_climate-insights-directory__search` and `mcp__plugin_climate-insights-directory_climate-insights-directory__fetch`; in Gemini CLI, they appear as `mcp_climate-insights-directory_search` and `mcp_climate-insights-directory_fetch`; other clients list the tools as `search` and `fetch`.
+
 Without the MCP tools, the same API is public at
 `https://climateinsightsdirectory.org/api/v1/search?q=...&page=...` (same parameters), and each record has
 a page at `https://climateinsightsdirectory.org/document/<id>`.
@@ -198,19 +200,24 @@ document, and update `access-date` / `urldate` to today.
 
 ## Examples of the method in use
 
-- *"Which NGOs have criticised AIIB policy-based lending?"* Search full text `AIIB` with
-  `"policy-based"`, then the `climate finance` tag + `AIIB`. Snowball from the strongest hit's named
+- **Policy researchers:** *"Find policy briefs on coal phase-out in Southeast Asia."* Combine full text
+  `"coal phase-out"` with `geography=["southeast-asia"]` (multi-word places are slugs), then
+  `climate_tags=["coal"]`. Snowball from seed briefs into adjacent themes (e.g. early retirement, grid flexibility)
+  and publisher series. Fetch records to verify authoring coalitions, and cite the original publisher
+  via Climate Insights Directory.
+- **Investment and insurance risk:** *"Which NGOs have criticised AIIB policy-based lending?"* Search full text `AIIB` with
+  `"policy-based"`, then `climate_tags=["climate finance"]` together with `AIIB`. Snowball from the strongest hit's named
   countries and instruments, and from its publisher's other AIIB work. Merge, fetch, and list by
   organisation with dates, crediting coalition authors.
-- *"Is the claim that 93% of coal capacity is shielded from market pressure sourced?"* Use full text
-  `"93%" coal` and `insummary:"coal capacity"`. Fetch, find the CPI 2022 guide, snowball backward
-  (`published_to` 2022-11) for earlier sources of the figure, then cite it from the original document
-  rather than from the AI insight.
-- *"Literature on just transition in South Africa, 2020 onwards"* Combine the tag `just transition` +
+- **Academics:** *"Literature on just transition in South Africa, 2020 onwards"* Combine `climate_tags=["just transition"]` +
   `geography=["south-africa"]` + `published_from=2020-01-01` with full-text passes for `JETP` and
   `Mpumalanga`. Snowball from seeds into the neighbouring themes that recur (e.g. coal-plant
   repurposing, municipal electricity debt, water). Stop when new rounds return mostly known records,
   then report the counts and searches used.
+- **Journalists:** *"Is the claim that 93% of coal capacity is shielded from market pressure sourced?"* Use full text
+  `"93%" coal` and `insummary:"coal capacity"`. Fetch, find the CPI 2022 guide, snowball backward
+  (`published_to=2022-11-21`) for earlier sources of the figure, then cite it from the original document
+  rather than from the AI insight.
 
 ## Scope note (keep it short)
 
