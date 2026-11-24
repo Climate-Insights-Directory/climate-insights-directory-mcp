@@ -1,6 +1,6 @@
 {
   "name": "climate-insights-directory",
-  "description": "Climate Insights Directory plugins and MCP servers for AI assistants",
+  "description": "Search civil-society climate and energy research: reports, policy briefs and analyses from NGOs, think tanks and research centres on climate policy, energy transition, climate finance and just transition. Free, no API key, with citations to the original publisher.",
   "owner": {
     "name": "Climate Insights Directory",
     "url": "https://climateinsightsdirectory.org"
@@ -8,7 +8,8 @@
   "plugins": [
     {
       "name": "climate-insights-directory",
-      "source": "./plugins/climate-insights-directory"
+      "source": "./plugins/climate-insights-directory",
+      "description": "Search civil-society climate and energy research: reports, policy briefs and analyses from NGOs, think tanks and research centres on climate policy, energy transition, climate finance and just transition. Free, no API key, with citations to the original publisher."
     }
   ]
 }

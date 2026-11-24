@@ -1,0 +1,32 @@
+name: Search miss
+description: A search should have found a document and did not, or returned results that look wrong.
+title: "Search miss: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: request
+    attributes:
+      label: The search exactly as sent
+      description: 'The `query` and every filter, for example `query: ""` with `climate_tags: ["loss and damage"]`.'
+      render: json
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+      description: The record ids or URLs that should have appeared, or what the results should have looked like.
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: What you got
+      description: Paste `total`, `filters_total`, `query_echo.warnings` and the first few results.
+    validations:
+      required: true
+  - type: input
+    id: client
+    attributes:
+      label: Client
+      description: Claude, ChatGPT, Gemini CLI, the REST API, or another client, with its version if you know it.

@@ -1,7 +1,7 @@
 {
   "name": "climate-insights-directory",
-  "version": "1.1.0",
-  "description": "Free, no API key. Discover what civil-society reports, policy briefs and analyses say about climate and energy, improve your desk research for policy, finance, scholarship, and journalism.",
+  "version": "1.2.0",
+  "description": "Search civil-society climate and energy research: reports, policy briefs and analyses from NGOs, think tanks and research centres on climate policy, energy transition, climate finance and just transition. Free, no API key, with citations to the original publisher.",
   "contextFileName": "GEMINI.md",
   "mcpServers": {
     "climate-insights-directory": {

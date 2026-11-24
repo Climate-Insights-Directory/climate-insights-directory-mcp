@@ -1,7 +1,6 @@
 # Climate Insights Directory for AI assistants
 
-Free, no API key. Discover what civil-society reports, policy briefs and analyses say about climate
-and energy, improve your desk research for policy, finance, scholarship, and journalism.
+Search civil-society climate and energy research: reports, policy briefs and analyses from NGOs, think tanks and research centres on climate policy, energy transition, climate finance and just transition. Free, no API key, with citations to the original publisher.
 
 [Climate Insights Directory](https://climateinsightsdirectory.org) is a free, open index of climate
 and energy research published by global civil society organizations, such as NGOs, think tanks and
@@ -62,9 +61,11 @@ The corpus is curated around core climate and energy concepts, that are document
 
 ## Feedback
 
-Found something wrong, or have an idea? [Open an issue](https://github.com/Climate-Insights-Directory/climate-insights-directory-mcp/issues)
+Found something wrong, or have an idea? [Open an issue](https://github.com/Climate-Insights-Directory/climate-insights-directory-mcp/issues/new/choose)
 in this repository. Issues are welcome for anything about the website or the API, not only this
-plugin: a wrong record, a missing organization, a search that should find something and doesn't.
+plugin. There is a form for each of the four common cases: a wrong record, a missing organization,
+a vocabulary gap (a tag, place or other filter value you needed) and a search miss (a search that
+should find something and doesn't).
 You can also write to [info@climateinsightsdirectory.org](mailto:info@climateinsightsdirectory.org).
 
 ## What is in this repository
@@ -74,6 +75,9 @@ You can also write to [info@climateinsightsdirectory.org](mailto:info@climateins
 - `gemini-extension.json` and `GEMINI.md`: the Gemini CLI extension.
 - `skills/`: the copy of the skill that the Gemini CLI extension loads, kept identical to the
   plugin's by `scripts/check-manifests.sh`.
+- `.github/ISSUE_TEMPLATE/`: the four issue forms linked from Feedback.
+- `scripts/check-manifests.sh`: checks that the manifests agree (version, description, MCP URLs),
+  that the two skill copies are identical, and that `GEMINI.md` carries every rule the skill marks.
 
 More plugins and tools from the Climate Insights Directory team may join this repository over time.
 
