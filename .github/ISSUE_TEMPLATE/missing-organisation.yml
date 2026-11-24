@@ -1,0 +1,41 @@
+name: Missing organisation
+description: A civil-society organisation that publishes climate or energy research is not in the directory.
+title: "Missing organisation: "
+labels: ["enhancement"]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Organisation name
+    validations:
+      required: true
+  - type: input
+    id: website
+    attributes:
+      label: Website or publications page
+    validations:
+      required: true
+  - type: dropdown
+    id: type
+    attributes:
+      label: What kind of organisation is it
+      options:
+        - NGO
+        - Think tank
+        - Research centre
+        - Network or coalition
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: examples
+    attributes:
+      label: Two or three documents that show why it belongs
+      description: Links to reports, policy briefs or analyses on climate or energy.
+    validations:
+      required: true
+  - type: textarea
+    id: search
+    attributes:
+      label: The search that should have found it
+      description: Optional. The question you asked, and which client you used.

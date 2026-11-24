@@ -1,0 +1,39 @@
+name: Vocabulary gap
+description: A tag, place, document type or other filter value you needed does not exist, or has the wrong name.
+title: "Vocabulary gap: "
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: facet
+    attributes:
+      label: Which filter
+      options:
+        - climate_tags
+        - geography
+        - geography_discussed
+        - organization
+        - document_type
+        - analysis_type
+        - frame_perspective
+        - language
+    validations:
+      required: true
+  - type: input
+    id: value
+    attributes:
+      label: The value you tried
+      description: Exactly as you sent it.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected it to match
+      description: The topic, place or documents you were looking for, and any value that did work.
+    validations:
+      required: true
+  - type: textarea
+    id: response
+    attributes:
+      label: What came back
+      description: Paste `total`, `filters_total` and `query_echo.warnings` if you have them.
