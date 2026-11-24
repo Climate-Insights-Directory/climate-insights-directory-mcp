@@ -43,6 +43,30 @@ if [ "$GEMINI_VER" != "$CLAUDE_VER" ]; then
   exit 1
 fi
 
+MARKETPLACE=".claude-plugin/marketplace.json"
+if [ ! -f "$MARKETPLACE" ]; then
+  echo "Error: $MARKETPLACE not found" >&2
+  exit 1
+fi
+
+# One description, published in four places: plugin.json, gemini-extension.json and
+# marketplace.json (top level and plugin entry). The Claude directory listing is a form, so it is
+# copied by hand from plugin.json.
+DESCRIPTION=$(jq -r '.description' "$CLAUDE_PLUGIN")
+if [ -z "$DESCRIPTION" ] || [ "$DESCRIPTION" = "null" ]; then
+  echo "Error: $CLAUDE_PLUGIN has no description" >&2
+  exit 1
+fi
+for found in \
+  "$(jq -r '.description' "$GEMINI_EXT")" \
+  "$(jq -r '.description' "$MARKETPLACE")" \
+  "$(jq -r '.plugins[0].description' "$MARKETPLACE")"; do
+  if [ "$found" != "$DESCRIPTION" ]; then
+    echo "Error: description differs from $CLAUDE_PLUGIN in $GEMINI_EXT or $MARKETPLACE" >&2
+    exit 1
+  fi
+done
+
 CLAUDE_SKILL="plugins/climate-insights-directory/skills/climate-energy-research/SKILL.md"
 GEMINI_SKILL="skills/climate-energy-research/SKILL.md"
 
@@ -58,6 +82,25 @@ fi
 
 if ! cmp -s "$CLAUDE_SKILL" "$GEMINI_SKILL"; then
   echo "Error: $GEMINI_SKILL differs from $CLAUDE_SKILL; copy it again" >&2
+  exit 1
+fi
+
+# GEMINI.md is always in the model's context and the skill is loaded on demand, so each rule id
+# marked `<!-- rule:ID -->` in the skill must also appear in GEMINI.md.
+rule_ids_of() {
+  sed -n 's/.*<!-- rule:\([a-z-]*\) -->.*/\1/p' "$1" | sort -u
+}
+
+SKILL_RULES=$(rule_ids_of "$CLAUDE_SKILL")
+if [ -z "$SKILL_RULES" ]; then
+  echo "Error: $CLAUDE_SKILL carries no <!-- rule:ID --> markers" >&2
+  exit 1
+fi
+
+GEMINI_RULES=$(rule_ids_of "GEMINI.md")
+MISSING=$(printf '%s\n' "$SKILL_RULES" | grep -vxF "$GEMINI_RULES" || true)
+if [ -n "$MISSING" ]; then
+  echo "Error: GEMINI.md lacks rules the skill carries: $(echo $MISSING)" >&2
   exit 1
 fi
 

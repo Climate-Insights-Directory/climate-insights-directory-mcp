@@ -25,6 +25,11 @@ documents** and **citing them correctly**. It needs only the two MCP tools, with
 - `fetch(id)`: one record as markdown, including **Author(s)**, **primary geography**, the AI summary and
   findings, and **ready-made citations** (APA, Chicago, Wikipedia `{{cite report}}`, BibTeX).
 
+Every `search` response also carries `total` (after the query text), `filters_total` (the same request with
+the query text removed), `facets` (the ten most frequent `publisher`, `document_type` and `geography` values
+and every `year`, each with a `count` and the `value` to send back as a filter, plus `other` and `missing`)
+and `date_range`. Read them before you page.
+
 In Claude Code with the plugin installed, these tools appear as `mcp__plugin_climate-insights-directory_climate-insights-directory__search` and `mcp__plugin_climate-insights-directory_climate-insights-directory__fetch`; in Gemini CLI, they appear as `mcp_climate-insights-directory_search` and `mcp_climate-insights-directory_fetch`; other clients list the tools as `search` and `fetch`.
 
 Without the MCP tools, the same API is public at
@@ -52,7 +57,9 @@ Before searching, write down what the question hangs on. Most questions combine 
 
 Run each candidate search with `page_size=1, response_format="concise"` and read two things:
 
-- `total.value`, the size of the pool.
+- `total.value`, the size of the pool, and `filters_total.value`, the pool before the query text. A
+  `total` below `filters_total` means the query text is narrowing the pool (see "Traps that change the
+  count").
 - `query_echo.warnings`. **Any warning means the result is wrong.** A value that isn't in the vocabulary
   is not simply dropped: it changes the count unpredictably. Fix the value and run it again before
   trusting any number.
@@ -125,9 +132,9 @@ findings.
 
 - Repeating a value in one filter gives **OR**; combining different filters gives **AND**. The query text
   is ANDed with all filters.
-- **Vocabulary format:** tags are case-insensitive words with spaces (`"carbon pricing"`). Single-word
-  countries work as names (`"Kenya"`, `"Indonesia"`); multi-word countries need the slug
-  (`"south-africa"`; `"South Africa"` warns).
+- **Vocabulary format:** tags are case-insensitive words with spaces (`"carbon pricing"`). Places accept
+  the name or the slug (in November 2026 `"South Africa"` and `"south-africa"` both returned 4,805);
+  `facets.geography` returns the slug, so copy `value` from there when unsure.
 - `organization` takes either the slug (`south-african-institute-of-international-affairs`) or the
   short identifier (`saiia`). Record IDs start with that identifier (`saiia-001296`).
 - `intitle:` is narrow (`intitle:JETP` gave 11). Use it to find flagship reports, not to measure
@@ -149,7 +156,7 @@ findings.
   mention the others where useful, and count them as one piece of work when saying how much has been
   written.
 
-### 7. Fetch every record you will cite
+### 7. Fetch every record you will cite <!-- rule:fetch-before-cite -->
 
 Search results omit authors and primary geography. Call `fetch(id)` for each document you rely on, to get:
 
@@ -158,11 +165,37 @@ Search results omit authors and primary geography. Call `fetch(id)` for each doc
 - the original `Source URL`,
 - the ready-made citation formats.
 
+## Traps that change the count
+
+These four make a pool look complete when it is not. Counts below are from November 2026 and drift as the
+directory grows; trust the pattern, not the number.
+
+- **Query text narrows a tag pull.** <!-- rule:tag-pull --> Any non-empty `query` switches the search to
+  full text and silently shrinks the pool: the tag `loss and damage` returned 1,133 records with
+  `query=""` and 389 once "loss and damage fund finance" was added. To pull everything a filter matches,
+  send `query=""` with the filters and a date `sort`. Use query text only to narrow on purpose, and
+  report `filters_total` beside `total` so the reader sees how much it cut.
+- **A region does not include its countries.** <!-- rule:region-gap --> `geography=Africa` matches records
+  tagged with the region itself, not records tagged with Nigeria or Zambia: `southeast-asia` returned 143,
+  `Indonesia` alone 1,239, and the two with `Vietnam` together 1,611. For a regional question, send the
+  region and its member countries as separate values of `geography` (values of one filter are ORed), and
+  say which countries you included. If a region filter ever returns at least as many as its largest
+  country, the directory has started expanding regions and this step is no longer needed.
+- **Homonyms.** <!-- rule:homonyms --> An acronym can name a different body or event: `CoP-30` returned
+  140 records, led by a 2022 Inter-American Institute meeting, while `COP30` returned 378. Read the
+  `facets.publisher` list and the first page for off-topic publishers, then add a year, a host city or a
+  tag to the query, and drop records that belong to the other body.
+- **One publisher can fill the pool.** <!-- rule:concentration --> After each pull, take the first entry of
+  `facets.publisher` and divide its `count` by `total.value`. At **20% or more**, say so in the answer
+  ("one organisation published 22% of these records"), read the next publishers in the list, and do not
+  describe the pool as the view of civil society. Add an `organization`, `geography` or date filter to
+  reach the rest of the pool before generalising, and report the share even when you cannot.
+
 ## Citation and provenance
 
 ### Who said it
 
-- **Credit the original publisher, not the directory.** Pattern: *Publisher, "Title" (date), via Climate
+- **Credit the original publisher, not the directory.** <!-- rule:cite-publisher --> Pattern: *Publisher, "Title" (date), via Climate
   Insights Directory*, linking the directory record URL and, where possible, the original `source_url`.
 - **The indexing publisher is not always the author.** Coalition letters filed through a legal NGO,
   commissioned studies, and joint reports are indexed under one organisation. Example: a CER record on
@@ -171,10 +204,13 @@ Search results omit authors and primary geography. Call `fetch(id)` for each doc
 - **Count organisations, not documents,** when saying how many sources hold a view. One prolific
   publisher with ten reports is one voice. Snowballing through one publisher's series tends to inflate
   this, so check it again before you write.
+- **Count a coalition once.** <!-- rule:coalition-once --> A joint letter or declaration is one voice,
+  however many organisations co-sign it and whichever one published it. List the signatories if the
+  record names them; do not add them to the count of sources as if each had written separately.
 
 ### What exactly was said
 
-- Summaries and key insights are **AI-generated and not reviewed by the publisher** (every response
+- Summaries and key insights are **AI-generated and not reviewed by the publisher** <!-- rule:ai-text --> (every response
   carries an `ai_marking` notice). Don't present them as the publisher's own words. Either:
   - attribute them to the directory ("the directory's summary of CPI's 2022 guide says ..."), or
   - open the `source_url` and quote or cite the publisher's text directly, ideally with a page number.
@@ -185,7 +221,7 @@ Search results omit authors and primary geography. Call `fetch(id)` for each doc
 
 ### When it was said
 
-- Give `date_published` **as provided**: it may be `YYYY-MM-DD`, `YYYY-MM`, `YYYY` or null. Don't pad
+- Give `date_published` **as provided**: <!-- rule:dates --> it may be `YYYY-MM-DD`, `YYYY-MM`, `YYYY` or null. Don't pad
   partial dates; write "undated" for null.
 - Put the year next to every contrasting claim ("RMI (2021) ... Ember (2026) ...") so readers can tell a
   live disagreement from one overtaken by events.
@@ -201,8 +237,8 @@ document, and update `access-date` / `urldate` to today.
 ## Examples of the method in use
 
 - **Policy researchers:** *"Find policy briefs on coal phase-out in Southeast Asia."* Combine full text
-  `"coal phase-out"` with `geography=["southeast-asia"]` (multi-word places are slugs), then
-  `climate_tags=["coal"]`. Snowball from seed briefs into adjacent themes (e.g. early retirement, grid flexibility)
+  `"coal phase-out"` with `geography=["southeast-asia"]` plus the member countries as extra values (a
+  region filter does not include them), then `climate_tags=["coal"]`. Snowball from seed briefs into adjacent themes (e.g. early retirement, grid flexibility)
   and publisher series. Fetch records to verify authoring coalitions, and cite the original publisher
   via Climate Insights Directory.
 - **Investment and insurance risk:** *"Which NGOs have criticised AIIB policy-based lending?"* Search full text `AIIB` with
@@ -227,7 +263,10 @@ For laws and NDCs, point to Climate Policy Radar; for emissions data, to sources
 
 ## Before you answer
 
-- [ ] No search you relied on had a `warnings` entry.
+- [ ] No search you relied on had a `warnings` entry. <!-- rule:warnings -->
+- [ ] Tag pulls used `query=""`, and `total` is reported beside `filters_total` where they differ.
+- [ ] Regional questions included the member countries; acronyms were checked for homonyms.
+- [ ] The top publisher's share of the pool is stated, and any share of 20% or more is flagged.
 - [ ] You tried at least one recall widener (synonym, full text vs tag, language).
 - [ ] You snowballed from seed documents and checked for adjacent themes (3+ shared hits), up to three
   rounds or until saturation, and logged each search.
